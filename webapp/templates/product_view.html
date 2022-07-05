@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+    <h3>Наименование товара:</h3>
+    <p>
+        {{ product.name }}
+    </p>
+    <h3>Описание товара:</h3>
+    <p>
+        {{ product.description }}
+    </p>
+    <h3>Категория товара:</h3>
+    <p>
+        {{ product.get_category_display }}
+    </p>
+    <h3>В наличии:</h3>
+    <p>
+        {{ product.available }}
+    </p>
+    <h3>Цена:</h3>
+    <p>
+        {{ product.price }}
+    </p>
+    <p>
+        <a href="">Редактировать задачу</a>
+    </p>
+    <p>
+        <a href="">Удалить задачу</a>
+    </p>
+    <p>
+        <a style="color: red;" href="{% url "index" %}"><b>На главную</b></a>
+    </p>
+{% endblock %}

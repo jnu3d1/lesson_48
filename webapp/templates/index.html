@@ -18,7 +18,7 @@
     {% endif %}
     {% for product in products %}
         <div>
-            <h3><a href="">{{ product.name }}</a>, Цена: {{ product.price }} ({{ product.get_category_display }})</h3>
+            <h3><a href="{% url "product_view" product.pk %}">{{ product.name }}</a>, Цена: {{ product.price }} ({{ product.get_category_display }})</h3>
         </div>
     {% endfor %}
 {% endblock %}
