@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Товары{% endblock %}
+
+{% block content %}
+    <h1>Коталог товаров</h1>
+    <div>
+        <form action="" method="post">
+            {% include "partial/search_form.html" %}
+        </form>
+        <br/>
+    </div>
+    {% if name %}
+        <div style="margin-bottom: 20px;">
+            <a href="{% url "index" %}">На главную</a>
+        </div>
+    {% endif %}
+    {% for product in products %}
+        <div>
+            <h3><a href="">{{ product.name }}</a>, Цена: {{ product.price }} ({{ product.get_category_display }})</h3>
+        </div>
+    {% endfor %}
+{% endblock %}
