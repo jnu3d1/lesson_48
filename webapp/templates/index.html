@@ -16,9 +16,15 @@
             <a href="{% url "index" %}">На главную</a>
         </div>
     {% endif %}
+    {% if not name %}
+        <div style="margin-bottom: 20px;">
+            <a href="{% url "create" %}">Добавить новый товар</a>
+        </div>
+    {% endif %}
     {% for product in products %}
         <div>
-            <h3><a href="{% url "product_view" product.pk %}">{{ product.name }}</a>, Цена: {{ product.price }} ({{ product.get_category_display }})</h3>
+            <h3><a href="{% url "product_view" product.pk %}">{{ product.name }}</a>, Цена: {{ product.price }}
+                ({{ product.get_category_display }})</h3>
         </div>
     {% endfor %}
 {% endblock %}

@@ -24,10 +24,10 @@
         {{ product.price }}
     </p>
     <p>
-        <a href="">Редактировать задачу</a>
+        <a href="{% url "edit" product.pk %}">Изменить</a>
     </p>
     <p>
-        <a href="">Удалить задачу</a>
+        <a href="{% url "delete" product.pk %}">Удалить</a>
     </p>
     <p>
         <a style="color: red;" href="{% url "index" %}"><b>На главную</b></a>
