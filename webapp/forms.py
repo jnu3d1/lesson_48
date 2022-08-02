@@ -1,12 +1,24 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import widgets
 
-from webapp.models import categories
+from webapp.models import categories, Product
 
 
-class ProductForm(forms.Form):
-    name = forms.CharField(max_length=200, label='Наименование товара')
-    description = forms.CharField(max_length=2000, label='Описание', required=False, widget=widgets.Textarea)
-    category = forms.ChoiceField(choices=categories, label='Категория товаров')
-    available = forms.IntegerField(min_value=0, label='В наличии')
-    price = forms.DecimalField(max_digits=7, decimal_places=2, label='Цена')
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'category', 'available', 'price']
+        widgets = {
+            'description': widgets.Textarea,
+        }
+
+    def clean_available(self):
+        available = self.cleaned_data.get('available')
+        if available < 0:
+            raise ValidationError('Значение не должно быть отрицательным!')
+        return available
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(label='Поиск', max_length=50, required=False)

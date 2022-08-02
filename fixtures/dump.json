@@ -86,5 +86,38 @@
         "available": 30,
         "price": "300.00"
     }
+},
+{
+    "model": "webapp.product",
+    "pk": 11,
+    "fields": {
+        "name": "Товар 4",
+        "description": "Лучший способ потратить ваши деньги!",
+        "category": "other",
+        "available": 40,
+        "price": "400.00"
+    }
+},
+{
+    "model": "webapp.product",
+    "pk": 13,
+    "fields": {
+        "name": "Товар 5",
+        "description": "Превосходный товар!",
+        "category": "electronics",
+        "available": 50,
+        "price": "500.00"
+    }
+},
+{
+    "model": "webapp.product",
+    "pk": 14,
+    "fields": {
+        "name": "Товар 6",
+        "description": "Бестселлер!",
+        "category": "books",
+        "available": 60,
+        "price": "600.02"
+    }
 }
 ]

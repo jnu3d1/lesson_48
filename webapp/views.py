@@ -1,65 +1,61 @@
-from django.http import HttpResponseNotFound
-from django.shortcuts import render, redirect, get_object_or_404
-
-# Create your views here.
+from django.urls import reverse, reverse_lazy
+from django.utils.http import urlencode
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from webapp.models import Product
-from webapp.forms import ProductForm
+from webapp.forms import ProductForm, SearchForm
 
 
-def index(request):
-    if request.method == 'GET':
-        products = Product.objects.filter(available__gt=0).order_by('category', 'name')
-        return render(request, 'index.html', {'products': products})
-    else:
-        name = request.POST.get('name')
-        products = Product.objects.filter(name=name)
-        return render(request, 'index.html', {'products': products, 'name': name})
+class ProductsView(ListView):
+    model = Product
+    template_name = 'index.html'
+    context_object_name = 'products'
+    paginate_by = 5
+
+    def get(self, request, *args, **kwargs):
+        self.form = SearchForm(self.request.GET)
+        if self.form.is_valid():
+            self.search_value = self.form.cleaned_data.get('search')
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        if self.search_value:
+            return Product.objects.filter(name__icontains=self.search_value)
+        return super().get_queryset().order_by('category', 'name').filter(available__gt=0)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['form'] = self.form
+        if self.search_value:
+            query = urlencode({'search': self.search_value})
+            context['query'] = query
+            context['search'] = self.search_value
+        return context
 
 
-def product_view(request, pk):
-    try:
-        product = Product.objects.get(pk=pk)
-    except Product.DoesNotExist:
-        return HttpResponseNotFound('<h1>Страница не найдена</h1>')
-    return render(request, 'product_view.html', {'product': product})
+class ProductView(DetailView):
+    model = Product
+    template_name = 'product_view.html'
 
 
-def create_product(request):
-    if request.method == 'GET':
-        form = ProductForm()
-        return render(request, 'create.html', {'form': form})
-    else:
-        form = ProductForm(data=request.POST)
-        if form.is_valid():
-            name = form.cleaned_data.get('name')
-            description = form.cleaned_data.get('description')
-            category = form.cleaned_data.get('category')
-            available = form.cleaned_data.get('available')
-            price = form.cleaned_data.get('price')
-            Product.objects.create(name=name, description=description, category=category, available=available,
-                                   price=price)
-            return redirect('index')
-        return render(request, 'create.html', {'form': form})
+class CreateProduct(CreateView):
+    form_class = ProductForm
+    template_name = 'create.html'
+
+    def get_success_url(self):
+        return reverse('product_view', kwargs={'pk': self.object.pk})
 
 
-def edit_product(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    if request.method == 'GET':
-        return render(request, 'edit.html', {'product': product})
-    else:
-        product.name = request.POST.get('name')
-        product.description = request.POST.get('description')
-        product.category = request.POST.get('category')
-        product.available = request.POST.get('available')
-        product.price = request.POST.get('price')
-        product.save()
-        return redirect('product_view', pk=product.pk)
+class UpdateProduct(UpdateView):
+    form_class = ProductForm
+    model = Product
+    template_name = 'create.html'
+
+    def get_success_url(self):
+        return reverse('product_view', kwargs={'pk': self.object.pk})
 
 
-def delete_product(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    if request.method == 'GET':
-        return render(request, 'delete.html', {'product': product})
-    product.delete()
-    return redirect('index')
+class DeleteProduct(DeleteView):
+    model = Product
+    template_name = 'delete.html'
+    success_url = reverse_lazy('index')
