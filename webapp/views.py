@@ -27,20 +27,20 @@ def product_view(request, pk):
 
 def create_product(request):
     if request.method == 'GET':
-        product = ProductForm()
-        return render(request, 'create.html', {'product': product})
+        form = ProductForm()
+        return render(request, 'create.html', {'form': form})
     else:
-        product = ProductForm(data=request.POST)
-        if product.is_valid():
-            name = product.cleaned_data.get('name')
-            description = product.cleaned_data.get('description')
-            category = product.cleaned_data.get('category')
-            available = product.cleaned_data.get('available')
-            price = product.cleaned_data.get('price')
+        form = ProductForm(data=request.POST)
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            description = form.cleaned_data.get('description')
+            category = form.cleaned_data.get('category')
+            available = form.cleaned_data.get('available')
+            price = form.cleaned_data.get('price')
             Product.objects.create(name=name, description=description, category=category, available=available,
                                    price=price)
             return redirect('index')
-        return render(request, 'create.html', {'product': product})
+        return render(request, 'create.html', {'form': form})
 
 
 def edit_product(request, pk):
