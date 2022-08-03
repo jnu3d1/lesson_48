@@ -23,6 +23,14 @@
     <p>
         {{ product.price }}
     </p>
+    {% if product.available > 0 %}
+        <form action="{% url "cart_add" product.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit">В корзину</button>
+        </form>
+    {% else %}
+        <p><b>Нет в наличии</b></p>
+    {% endif %}
     <p>
         <a href="{% url "edit" product.pk %}">Изменить</a>
     </p>

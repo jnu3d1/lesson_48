@@ -1,8 +1,9 @@
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from webapp.models import Product
+from webapp.models import Product, Cart
 from webapp.forms import ProductForm, SearchForm
 
 
@@ -49,7 +50,7 @@ class CreateProduct(CreateView):
 class UpdateProduct(UpdateView):
     form_class = ProductForm
     model = Product
-    template_name = 'create.html'
+    template_name = 'edit.html'
 
     def get_success_url(self):
         return reverse('product_view', kwargs={'pk': self.object.pk})
@@ -59,3 +60,45 @@ class DeleteProduct(DeleteView):
     model = Product
     template_name = 'delete.html'
     success_url = reverse_lazy('index')
+
+
+def cart_add(request, pk):
+    product = Product.objects.get(pk=pk)
+    try:
+        cart = Cart.objects.get(product=product)
+    except Cart.DoesNotExist:
+        cart = None
+    if request.method == 'POST':
+        if product.available > 0:
+            if cart:
+                cart.count +=1
+                product.available -= 1
+                product.save()
+                cart.save()
+            else:
+                Cart.objects.create(product=product, count=1)
+    return redirect('index')
+
+
+class CartView(ListView):
+    model = Cart
+    template_name = 'cart.html'
+    context_object_name = 'items'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        total = 0
+        for i in Cart.objects.all():
+            total += i.product.price * i.count
+        context['total'] = total
+        return context
+
+
+class DeleteFromCart(DeleteView):
+    model = Cart
+    success_url = reverse_lazy('cart')
+
+
+
+
+

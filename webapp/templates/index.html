@@ -15,13 +15,19 @@
             <p><a href="{% url "create" %}">Добавить новый товар</a></p>
         {% endif %}
         {% for product in products %}
-            <p>
-            <h3><a href="{% url "product_view" product.pk %}">{{ product.name }}</a>, Цена: {{ product.price }}
-                ({{ product.get_category_display }})</h3>
-            </p>
+            <h3><a href="{% url "product_view" product.pk %}">{{ product.name }}</a>, Цена: {{ product.price }} ({{ product.get_category_display }})</h3>
+{#            {% if product.available > 0 %}#}
+            <form action="{% url "cart_add" product.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit">В корзину</button>
+            </form>
+{#            {% else %}#}
+{#                <p>Нет в наличии</p>#}
+{#            {% endif %}#}
         {% endfor %}
         {% if is_paginated %}
             {% include 'partial/pagination.html' %}
         {% endif %}
     </div>
+    <p><a href="{% url "cart" %}"><h2>Корзина</h2></a></p>
 {% endblock %}
