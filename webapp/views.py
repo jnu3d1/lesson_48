@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -71,12 +71,14 @@ def cart_add(request, pk):
     if request.method == 'POST':
         if product.available > 0:
             if cart:
-                cart.count +=1
+                cart.count += 1
                 product.available -= 1
                 product.save()
                 cart.save()
             else:
                 Cart.objects.create(product=product, count=1)
+                product.available -= 1
+                product.save()
     return redirect('index')
 
 
@@ -94,11 +96,14 @@ class CartView(ListView):
         return context
 
 
-class DeleteFromCart(DeleteView):
-    model = Cart
-    success_url = reverse_lazy('cart')
+# class DeleteFromCart(DeleteView):
+#     model = Cart
+#     success_url = reverse_lazy('cart')
 
 
-
-
-
+def delete_from_cart(request, pk):
+    cart = get_object_or_404(Cart, pk=pk)
+    cart.product.available += cart.count
+    cart.product.save()
+    cart.delete()
+    return redirect('cart')
