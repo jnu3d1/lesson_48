@@ -30,14 +30,18 @@ class Cart(models.Model):
     product = models.ForeignKey('webapp.Product', on_delete=models.CASCADE, related_name='cart', verbose_name='Товар')
     count = models.PositiveIntegerField(verbose_name='Количество')
 
-    def sum(self):
+    def get_sum(self):
         return self.product.price * self.count
 
-    def total(self):
+    @classmethod
+    def get_total(cls):
         total = 0
-        for i in Cart.objects.all():
-            total += i.product.price * i.count
+        for i in cls.objects.all():
+            total += i.get_sum()
         return total
+
+    def __str__(self):
+        return f'{self.product.name} - {self.count}'
 
     class Meta:
         db_table = 'cart'

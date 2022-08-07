@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import widgets
 
-from webapp.models import categories, Product
+from webapp.models import categories, Product, Cart
 
 
 class ProductForm(forms.ModelForm):
@@ -22,3 +22,10 @@ class ProductForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search = forms.CharField(label='Поиск', max_length=50, required=False)
+
+
+class CartForm(forms.ModelForm):
+
+    class Meta:
+        model = Cart
+        fields = ['count']

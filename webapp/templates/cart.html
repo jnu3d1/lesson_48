@@ -6,7 +6,7 @@
     <h1>Товары в корзине:</h1>
     <p></p>
     {% for i in items %}
-        <p>{{ i.product.name }} | Цена: {{ i.product.price }} | Количество: {{ i.count }} | Сумма: {{ i.sum }}</p>
+        <p>{{ i.product.name }} | Цена: {{ i.product.price }} | Количество: {{ i.count }} | Сумма: {{ i.get_sum }}</p>
         <form action="{% url "cart_delete" i.pk %}" method="post">
             {% csrf_token %}
             <button type="submit">Удалить</button>
