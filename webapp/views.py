@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
@@ -92,7 +92,7 @@ class CartAdd(CreateView):
         product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
         count = form.cleaned_data.get('count')
         if count > product.available:
-            pass
+            return HttpResponseBadRequest(f'К сожалению, мы таким количеством не располагаем.')
         else:
             cart, created = Cart.objects.get_or_create(product=product, defaults={'count': count, })
             if not created:
@@ -101,6 +101,9 @@ class CartAdd(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
+        next = self.request.GET.get('next')
+        if next:
+            return next
         return reverse('index')
 
 
