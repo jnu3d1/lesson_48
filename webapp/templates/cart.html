@@ -14,5 +14,9 @@
     {% endfor %}
     <h3>Итого:</h3>
     <p>{{ total }}</p>
+    <h3>Сделать заказ</h3>
+    <form action="{% url "create_order" %}" method="post">
+        {% include "partial/form.html"  with button_text="Заказать" %}
+    </form><br/>
     <a style="color: red;" href="{% url "index" %}"><b>На главную</b></a>
 {% endblock %}

@@ -4,8 +4,8 @@ from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from webapp.models import Product, Cart
-from webapp.forms import ProductForm, SearchForm, CartForm
+from webapp.models import *
+from webapp.forms import *
 
 
 class ProductsView(ListView):
@@ -37,6 +37,7 @@ class ProductsView(ListView):
 
 class ProductView(DetailView):
     model = Product
+    queryset = Product.objects.filter(available__gt=0)
     template_name = 'product_view.html'
 
 
@@ -90,17 +91,13 @@ class CartAdd(CreateView):
     def form_valid(self, form):
         product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
         count = form.cleaned_data.get('count')
-        print(count)
         if count > product.available:
             pass
         else:
-            cart, is_created = Cart.objects.get_or_create(product=product, defaults={'count': 1, })
-            print(cart, is_created)
-            if is_created:
-                cart.count = count
-            else:
+            cart, created = Cart.objects.get_or_create(product=product, defaults={'count': count, })
+            if not created:
                 cart.count += count
-            cart.save()
+                cart.save()
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
@@ -115,12 +112,26 @@ class CartView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['total'] = Cart.get_total()
+        context['form'] = OrderForm()
         return context
 
 
 class DeleteFromCart(DeleteView):
     model = Cart
     success_url = reverse_lazy('cart')
+
+    def post(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.count -= 1
+        if self.object.count < 1:
+            self.object.delete()
+        else:
+            self.object.save()
+        return HttpResponseRedirect(success_url)
 
 
 def delete_from_cart(request, pk):
@@ -129,3 +140,32 @@ def delete_from_cart(request, pk):
     cart.product.save()
     cart.delete()
     return redirect('cart')
+
+
+class OrderCreate(CreateView):
+    model = Order
+    form_class = OrderForm
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        order = form.save()
+        # for item in Cart.objects.all():
+        #     OrderedProducts.objects.create(product=item.product, order=order, quantity=item.count)
+        #     item.product.available -= item.count
+        #     item.product.save()
+        #     # item.delete()
+        # Cart.objects.all().delete()
+        # return HttpResponseRedirect(self.success_url)
+
+        products = []
+        ordered_products = []
+
+        for item in Cart.objects.all():
+            ordered_products.append(OrderedProducts(product=item.product, quantity=item.count, order=order))
+            item.product.available -= item.count
+            products.append(item.product)
+
+        OrderedProducts.objects.bulk_create(ordered_products)
+        Product.objects.bulk_update(products, ('available',))
+        Cart.objects.all().delete()
+        return HttpResponseRedirect(self.success_url)
