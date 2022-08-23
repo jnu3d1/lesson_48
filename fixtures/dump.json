@@ -1,123 +1,230 @@
 [
 {
-    "model": "webapp.product",
-    "pk": 1,
-    "fields": {
-        "name": "Криптономикон",
-        "description": "В период Второй мировой войны молодой математический гений Лоуренс Уотерхаус участвует во взломе немецких шифровальных систем. В наше время его внук Рэнди, компьютерный хакер, помогает построить автономную «гавань данных» в Юго-Восточной Азии. Судьба внука связана с работой деда, с международным заговором, который может принести миру кабалу нового тоталитаризма.",
-        "category": "books",
-        "available": 99,
-        "price": "500.00"
-    }
+  "model": "webapp.product",
+  "pk": 1,
+  "fields": {
+    "name": "Криптономикон",
+    "description": "В период Второй мировой войны молодой математический гений Лоуренс Уотерхаус участвует во взломе немецких шифровальных систем. В наше время его внук Рэнди, компьютерный хакер, помогает построить автономную «гавань данных» в Юго-Восточной Азии. Судьба внука связана с работой деда, с международным заговором, который может принести миру кабалу нового тоталитаризма.",
+    "category": "books",
+    "available": 140,
+    "price": "500.00"
+  }
 },
 {
-    "model": "webapp.product",
-    "pk": 2,
-    "fields": {
-        "name": "PocketBook 740 Color",
-        "description": "PocketBook с гордостью представляет PocketBook 740 Color, первый в мире электронный ридер с новейшим 7,8-дюймовым цветным экраном E Ink Kaleido™ Plus, способным отображать 4096 цветов.",
-        "category": "electronics",
-        "available": 200,
-        "price": "30000.00"
-    }
+  "model": "webapp.product",
+  "pk": 2,
+  "fields": {
+    "name": "PocketBook 740 Color",
+    "description": "PocketBook с гордостью представляет PocketBook 740 Color, первый в мире электронный ридер с новейшим 7,8-дюймовым цветным экраном E Ink Kaleido™ Plus, способным отображать 4096 цветов.",
+    "category": "electronics",
+    "available": 9,
+    "price": "30000.00"
+  }
 },
 {
-    "model": "webapp.product",
-    "pk": 3,
-    "fields": {
-        "name": "Ультрафиолетовая лампа",
-        "description": "",
-        "category": "pet_supplies",
-        "available": 50,
-        "price": "2000.00"
-    }
+  "model": "webapp.product",
+  "pk": 3,
+  "fields": {
+    "name": "Ультрафиолетовая лампа",
+    "description": "",
+    "category": "pet_supplies",
+    "available": 49,
+    "price": "2000.00"
+  }
 },
 {
-    "model": "webapp.product",
-    "pk": 5,
-    "fields": {
-        "name": "Средство для копыт с маслом чайного дерева",
-        "description": "Средство, содержащее масло чайного дерева, известное своими антибактериальными и противогрибковыми свойствами. Придает богатый и насыщенный блеск копытам всех цветов.",
-        "category": "pet_supplies",
-        "available": 20,
-        "price": "4855.00"
-    }
+  "model": "webapp.product",
+  "pk": 5,
+  "fields": {
+    "name": "Средство для копыт с маслом чайного дерева",
+    "description": "Средство, содержащее масло чайного дерева, известное своими антибактериальными и противогрибковыми свойствами. Придает богатый и насыщенный блеск копытам всех цветов.",
+    "category": "pet_supplies",
+    "available": 19,
+    "price": "4855.00"
+  }
 },
 {
-    "model": "webapp.product",
-    "pk": 6,
-    "fields": {
-        "name": "Поваренная книга анархиста",
-        "description": "Пособие по использованию обычных исходных материалов, веществ и предметов для изготовления в домашних условиях наркотических веществ, оружия, взрывных устройств, ядов.",
-        "category": "books",
-        "available": 0,
-        "price": "499.99"
-    }
+  "model": "webapp.product",
+  "pk": 6,
+  "fields": {
+    "name": "Поваренная книга анархиста",
+    "description": "Пособие по использованию обычных исходных материалов, веществ и предметов для изготовления в домашних условиях наркотических веществ, оружия, взрывных устройств, ядов.",
+    "category": "books",
+    "available": 0,
+    "price": "499.99"
+  }
 },
 {
-    "model": "webapp.product",
-    "pk": 7,
-    "fields": {
-        "name": "Товар 1",
-        "description": "Ничего особенного!",
-        "category": "electronics",
-        "available": 10,
-        "price": "100.00"
-    }
+  "model": "webapp.product",
+  "pk": 7,
+  "fields": {
+    "name": "Товар 1",
+    "description": "Ничего особенного!",
+    "category": "electronics",
+    "available": 7,
+    "price": "100.00"
+  }
 },
 {
-    "model": "webapp.product",
-    "pk": 8,
-    "fields": {
-        "name": "Товар 2",
-        "description": "Первоклассный товар!",
-        "category": "pet_supplies",
-        "available": 20,
-        "price": "200.00"
-    }
+  "model": "webapp.product",
+  "pk": 8,
+  "fields": {
+    "name": "Товар 2",
+    "description": "Первоклассный товар!",
+    "category": "pet_supplies",
+    "available": 20,
+    "price": "200.00"
+  }
 },
 {
-    "model": "webapp.product",
-    "pk": 9,
-    "fields": {
-        "name": "Товар 3",
-        "description": "*****",
-        "category": "other",
-        "available": 30,
-        "price": "300.00"
-    }
+  "model": "webapp.product",
+  "pk": 9,
+  "fields": {
+    "name": "Товар 3",
+    "description": "*****",
+    "category": "other",
+    "available": 30,
+    "price": "300.00"
+  }
 },
 {
-    "model": "webapp.product",
-    "pk": 11,
-    "fields": {
-        "name": "Товар 4",
-        "description": "Лучший способ потратить ваши деньги!",
-        "category": "other",
-        "available": 40,
-        "price": "400.00"
-    }
+  "model": "webapp.product",
+  "pk": 11,
+  "fields": {
+    "name": "Товар 4",
+    "description": "Лучший способ потратить ваши деньги!",
+    "category": "other",
+    "available": 40,
+    "price": "400.00"
+  }
 },
 {
-    "model": "webapp.product",
-    "pk": 13,
-    "fields": {
-        "name": "Товар 5",
-        "description": "Превосходный товар!",
-        "category": "electronics",
-        "available": 50,
-        "price": "500.00"
-    }
+  "model": "webapp.product",
+  "pk": 13,
+  "fields": {
+    "name": "Товар 5",
+    "description": "Превосходный товар!",
+    "category": "electronics",
+    "available": 48,
+    "price": "500.00"
+  }
 },
 {
-    "model": "webapp.product",
-    "pk": 14,
-    "fields": {
-        "name": "Товар 6",
-        "description": "Бестселлер!",
-        "category": "books",
-        "available": 60,
-        "price": "600.02"
-    }
+  "model": "webapp.product",
+  "pk": 14,
+  "fields": {
+    "name": "Товар 6",
+    "description": "Бестселлер!",
+    "category": "books",
+    "available": 56,
+    "price": "600.00"
+  }
+},
+{
+  "model": "webapp.cart",
+  "pk": 40,
+  "fields": {
+    "product": 7,
+    "count": 1
+  }
+},
+{
+  "model": "webapp.cart",
+  "pk": 41,
+  "fields": {
+    "product": 1,
+    "count": 1
+  }
+},
+{
+  "model": "webapp.cart",
+  "pk": 42,
+  "fields": {
+    "product": 13,
+    "count": 3
+  }
+},
+{
+  "model": "webapp.order",
+  "pk": 1,
+  "fields": {
+    "name": "Имя",
+    "phone_number": "Номер телефона",
+    "address": "Адрес",
+    "created_at": "2022-08-13T13:58:26.710Z"
+  }
+},
+{
+  "model": "webapp.order",
+  "pk": 2,
+  "fields": {
+    "name": "Василий",
+    "phone_number": "Нет телефона",
+    "address": "На задворках",
+    "created_at": "2022-08-14T10:55:32.572Z"
+  }
+},
+{
+  "model": "webapp.orderedproducts",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "order": 1,
+    "quantity": 1
+  }
+},
+{
+  "model": "webapp.orderedproducts",
+  "pk": 2,
+  "fields": {
+    "product": 14,
+    "order": 1,
+    "quantity": 2
+  }
+},
+{
+  "model": "webapp.orderedproducts",
+  "pk": 3,
+  "fields": {
+    "product": 5,
+    "order": 1,
+    "quantity": 1
+  }
+},
+{
+  "model": "webapp.orderedproducts",
+  "pk": 4,
+  "fields": {
+    "product": 3,
+    "order": 1,
+    "quantity": 1
+  }
+},
+{
+  "model": "webapp.orderedproducts",
+  "pk": 5,
+  "fields": {
+    "product": 14,
+    "order": 2,
+    "quantity": 1
+  }
+},
+{
+  "model": "webapp.orderedproducts",
+  "pk": 6,
+  "fields": {
+    "product": 2,
+    "order": 2,
+    "quantity": 1
+  }
+},
+{
+  "model": "webapp.orderedproducts",
+  "pk": 7,
+  "fields": {
+    "product": 13,
+    "order": 2,
+    "quantity": 2
+  }
 }
 ]

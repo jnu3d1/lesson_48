@@ -25,19 +25,19 @@
     </p>
     {% if product.available > 0 %}
         {% include 'partial/cart_add_form.html' %}
-{#        <form action="{% url "cart_add" product.pk %}" method="post">#}
-{#            {% csrf_token %}#}
-{#            <button type="submit">В корзину</button>#}
-{#        </form>#}
+        {#        <form action="{% url "cart_add" product.pk %}" method="post">#}
+        {#            {% csrf_token %}#}
+        {#            <button type="submit">В корзину</button>#}
+        {#        </form>#}
     {% else %}
         <p><b>Нет в наличии</b></p>
     {% endif %}
-    <p>
-        <a href="{% url "edit" product.pk %}">Изменить</a>
-    </p>
-    <p>
-        <a href="{% url "delete" product.pk %}">Удалить</a>
-    </p>
+    {% if perms.webapp.change_product %}
+        <p><a href="{% url "edit" product.pk %}">Изменить</a></p>
+    {% endif %}
+    {% if perms.webapp.delete_product %}
+        <p><a href="{% url "delete" product.pk %}">Удалить</a></p>
+    {% endif %}
     <p>
         <a style="color: red;" href="{% url "index" %}"><b>На главную</b></a>
     </p>

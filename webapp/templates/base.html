@@ -10,6 +10,17 @@
     <link rel="stylesheet" href="{% static "css/style.css" %}">
 </head>
 <body>
+{% if request.user.is_authenticated %}
+    <p><a href="{% url "logout" %}">Выход</a></p>
+    <p>Здравствуйте, {{ request.user.username }}</p>
+{% else %}
+    {% if request.path != "/accounts/login/" %}
+        <p><a href="{% url "login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% else %}?next={{ request.get_full_path }}{% endif %}">Вход</a></p>
+    {% endif %}
+    {% if request.path != "/accounts/create/" %}
+        <p><a href="{% url "create_user" %}{% if request.GET.next %}?next={{ request.GET.next }}{% else %}?next={{ request.get_full_path }}{% endif %}">Регистрация</a></p>
+    {% endif %}
+{% endif %}
 {% block content %}
 {% endblock %}
 </body>

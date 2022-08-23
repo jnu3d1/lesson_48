@@ -12,12 +12,14 @@
         {% if search %}
             <p><a href="{% url "index" %}">На главную</a></p>
         {% else %}
-            <p><a href="{% url "create" %}">Добавить новый товар</a></p>
+            {% if perms.webapp.add_product %}
+                <p><a href="{% url "create" %}">Добавить новый товар</a></p>
+            {% endif %}
         {% endif %}
         {% for product in products %}
             <h3><a href="{% url "product_view" product.pk %}">{{ product.name }}</a>, Цена: {{ product.price }}
                 ({{ product.get_category_display }})</h3>
-{#            {% include 'partial/cart_add_form.html' %}#}
+            {#            {% include 'partial/cart_add_form.html' %}#}
             <form action="{% url "add_to_cart" product.pk %}" method="post">
                 {% csrf_token %}
                 <button name="count" value="1" type="submit">В корзину</button>
