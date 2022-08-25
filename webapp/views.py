@@ -69,23 +69,44 @@ class DeleteProduct(PermissionRequiredMixin, DeleteView):
 
 
 def cart_add(request, pk):
+    # product = Product.objects.get(pk=pk)
+    # try:
+    #     cart = Cart.objects.get(product=product)
+    # except Cart.DoesNotExist:
+    #     cart = None
+    # if request.method == 'POST':
+    #     if product.available > 0:
+    #         if cart:
+    #             cart.count += 1
+    #             product.available -= 1
+    #             product.save()
+    #             cart.save()
+    #         else:
+    #             Cart.objects.create(product=product, count=1)
+    #             product.available -= 1
+    #             product.save()
+    # return redirect('index')
     product = Product.objects.get(pk=pk)
-    try:
-        cart = Cart.objects.get(product=product)
-    except Cart.DoesNotExist:
-        cart = None
+    print(product)
+    cart = request.session.get('cart', {})
+    print(cart)
     if request.method == 'POST':
-        if product.available > 0:
-            if cart:
-                cart.count += 1
-                product.available -= 1
-                product.save()
-                cart.save()
+        count = int(request.POST.get('count'))
+        print(count)
+        if count > product.available:
+            return HttpResponseBadRequest(f'К сожалению, мы таким количеством не располагаем.')
+        else:
+            if str(pk) in cart:
+                cart[str(pk)] += count
             else:
-                Cart.objects.create(product=product, count=1)
-                product.available -= 1
-                product.save()
-    return redirect('index')
+                cart[str(pk)] = count
+            request.session['cart'] = cart
+        print(cart)
+        print(request.session.get('cart'))
+    next = request.GET.get('next')
+    if next:
+        return HttpResponseRedirect(next)
+    return HttpResponseRedirect(reverse('index'))
 
 
 class CartAdd(CreateView):
